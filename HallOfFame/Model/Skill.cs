@@ -5,21 +5,30 @@ namespace HallOfFame.Model
 {
     public class Skill
     {
-        private string _name;
-
-        private byte _level;
-
         [Key]
-        public string Name
-        {
-            set => _name = value;
-            get => _name;
-        }
+        public long Id { set; get; }
+
+        public string Name { set; get; }
 
         public byte Level
         {
-            set => _level = value;
-            get => _level;
+            set
+            {
+                if (value <= 10)
+                {
+                    Level = value;
+                }
+            }
+            get => Level;
+        }
+
+        public long PersonId { set; get; }
+
+        public Skill(string name, byte level, long personId)
+        {
+            Name = name;
+            Level = level;
+            PersonId = personId;
         }
     }
 }

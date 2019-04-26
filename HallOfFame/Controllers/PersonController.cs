@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using HallOfFame.Model;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HallOfFame.Controllers
@@ -12,50 +9,79 @@ namespace HallOfFame.Controllers
     [ApiController]
     public class PersonController : ControllerBase
     {
-        private AppDatabaseContext _context;
+        #region Fields
+
+        #region Private fields
+
+        private readonly AppDatabaseContext _context;
+
+        #endregion
+
+        #endregion
+
+        #region Constructor
 
         public PersonController(AppDatabaseContext context)
         {
             _context = context;
         }
 
+        #endregion
+
+        #region Public methods
+
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Person> Get()
         {
-            var persons = _context.Persons.Select(u => u.Name).ToArray();
-            return  persons;
+            var persons = _context.Persons;
+            return persons;
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public string Get(long id)
+        public Person Get(long id)
         {
-            return _context.Persons.Find(id).Name;
+            return _context.Persons.Find(id);
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post(/*[FromBody]string valuelong id, */[FromBody]Person person/*, string displayName, List<Skill> skills*/)
+        public void Post(Person person, List<Skill> skills)
         {
-            /*Skill attentiveness = new Skill {Name = "attentiveness", Level = 5};
-            List<Skill> skills = new List<Skill> {attentiveness};
-            Person person = new Person(name, "voitje", skills);
-            //person.Name = name;
-            //person.DisplayName = "voitje";
-            //person.Skills = skills;
+            _context.Persons.Add(person);
+            _context.SaveChanges();
+            for (var i = 0; i < skills.Count; i++)
+            {
+                skills[i].PersonId = person.Id;
+                _context.Skills.Add(skills[i]);
+            }
 
-            _context.Persons.Add(person);
-            _context.Skills.Add(attentiveness);*/
-            _context.Persons.Add(person);
             _context.SaveChanges();
         }
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]Person newPerson)
+        public void Put(long id, Person newPerson)
         {
-            Person person = _context.Persons.Find(newPerson);
+            var person = _context.Persons.Find(id);
+            person.Name = newPerson.Name;
+            person.DisplayName = newPerson.DisplayName;
+            person.Skills = newPerson.Skills;
+            for (var i = 0; i < newPerson.Skills.Count; i++)
+            {
+                if (newPerson.Skills[i].Name == person.Skills[i].Name)
+                {
+                    if (newPerson.Skills[i].Level != person.Skills[i].Level)
+                    {
+                        person.Skills[i].Level = newPerson.Skills[i].Level;
+                    }
+                }
+                else
+                {
+                    person.Skills.Add(person.Skills[i]);
+                }
+            }
 
             _context.SaveChanges();
         }
@@ -65,7 +91,16 @@ namespace HallOfFame.Controllers
         public void Delete(long id)
         {
             var person = _context.Persons.Find(id);
+            var skill = _context.Skills.Where(u => u.PersonId == id).ToList();
             _context.Persons.Remove(person);
+            for (var i = 0; i < skill.Count(); i++)
+            {
+                _context.Skills.Remove(skill[i]);
+            }
+
+            _context.SaveChanges();
         }
+
+        #endregion
     }
 }

@@ -25,19 +25,21 @@ namespace HallOfFame.Migrations
                 name: "Skills",
                 columns: table => new
                 {
-                    Name = table.Column<string>(nullable: false),
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
                     Level = table.Column<byte>(nullable: false),
-                    PersonId = table.Column<long>(nullable: true)
+                    PersonId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Skills", x => x.Name);
+                    table.PrimaryKey("PK_Skills", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Skills_Persons_PersonId",
                         column: x => x.PersonId,
                         principalTable: "Persons",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

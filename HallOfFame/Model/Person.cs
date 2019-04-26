@@ -1,48 +1,46 @@
 ﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
+using System.Text.RegularExpressions;
 
 namespace HallOfFame.Model
 {
     public class Person
     {
-        private long _id;
+        #region Properties
 
-        private string _name;
-
-        private string _displayName;
-
-        private List<Skill> _skills;
-
-        public long Id
-        {
-            set => _id = value;
-            get => _id;
-        }
+        public long Id { set; get; }
 
         public string Name
         {
-            set => _name = value;
-            get => _name;
+            set
+            {
+                var regex = new Regex(@"^[А-ЯЁ][а-яё]");
+                var match = regex.Match(value);
+                if (match.Success)
+                {
+                    Name = value;
+                }
+            }
+            get => Name;
         }
 
-        public string DisplayName
-        {
-            set => _displayName = value;
-            get => _displayName;
-        }
+        public string DisplayName { set; get; }
 
-        public List<Skill> Skills
-        {
-            set => _skills = value;
-            get => _skills;
-        }
+        public List<Skill> Skills { set; get; }
 
-        public Person(string name, string displayName, List<Skill> skills)
+        #endregion
+
+        #region Constructor
+
+        public Person(string name, string displayName)
         {
             Name = name;
             DisplayName = displayName;
-            //Skills = new List<Skill>();
-            Skills = skills;
         }
+
+        private Person()
+        {
+        }
+
+        #endregion
     }
 }

@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190423173428_InitMigration.cs" />
+    <Compile Remove="Migrations\20190423173428_InitMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190424135112_AddIdToSkill.cs" />
+    <Compile Remove="Migrations\20190424135112_AddIdToSkill.Designer.cs" />
+    <Compile Remove="Migrations\20190424141810_InitMigration.cs" />
+    <Compile Remove="Migrations\20190424141810_InitMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190424141948_AddIdToSkill.cs" />
+    <Compile Remove="Migrations\20190424141948_AddIdToSkill.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
