@@ -5,6 +5,16 @@ namespace HallOfFame.Model
 {
     public class Person
     {
+        #region Fields
+
+        #region Private fields
+
+        private string _name;
+
+        #endregion
+
+        #endregion
+
         #region Properties
 
         public long Id { set; get; }
@@ -17,10 +27,10 @@ namespace HallOfFame.Model
                 var match = regex.Match(value);
                 if (match.Success)
                 {
-                    Name = value;
+                    _name = value;
                 }
             }
-            get => Name;
+            get => _name;
         }
 
         public string DisplayName { set; get; }

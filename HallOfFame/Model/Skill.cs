@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace HallOfFame.Model
 {
     public class Skill
     {
+        #region Properties
+
         [Key]
         public long Id { set; get; }
 
@@ -24,11 +25,17 @@ namespace HallOfFame.Model
 
         public long PersonId { set; get; }
 
+        #endregion
+
+        #region Constructor
+
         public Skill(string name, byte level, long personId)
         {
             Name = name;
             Level = level;
             PersonId = personId;
         }
+
+        #endregion
     }
 }

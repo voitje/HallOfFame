@@ -47,9 +47,9 @@ namespace HallOfFame.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        public void Post(Person person, List<Skill> skills)
+        public void Post(/*Person person, List<Skill> skills*/)
         {
-            _context.Persons.Add(person);
+            /*_context.Persons.Add(person);
             _context.SaveChanges();
             for (var i = 0; i < skills.Count; i++)
             {
@@ -57,6 +57,9 @@ namespace HallOfFame.Controllers
                 _context.Skills.Add(skills[i]);
             }
 
+            _context.SaveChanges();*/
+            Person person = new Person("Тест", "ASD");
+            _context.Persons.Add(person);
             _context.SaveChanges();
         }
 

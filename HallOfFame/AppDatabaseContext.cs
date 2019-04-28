@@ -5,13 +5,21 @@ namespace HallOfFame
 {
     public class AppDatabaseContext : DbContext
     {
-        public AppDatabaseContext(DbContextOptions<AppDatabaseContext> options) : base (options)
-        {
-
-        }
+        #region Properties
 
         public DbSet<Person> Persons { get; set; }
 
         public DbSet<Skill> Skills { get; set; }
+
+        #endregion
+
+        #region Constructor
+
+        public AppDatabaseContext(DbContextOptions<AppDatabaseContext> options) : base(
+            options)
+        {
+        }
+
+        #endregion
     }
 }
